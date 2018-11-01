@@ -56,7 +56,7 @@ $ curl -sSL https://goo.gl/6wtTN5 | bash -s 1.1.0
 > ```
 
 Una vez descargadas las imágenes Docker, tenemos que asegurarnos que estén en su última version (`latest`). Si ejecutamos `$ docker images` deberíamos de tener una salida parecida a esta:
- ![Fabric install](/doc/images/Fabric_install.jpg)
+ ![Fabric install](./doc/images/Fabric_install.jpg)
 
  Si alguna imágen Docker no tiene la etiqueta `latest` puedes añadirla con el siguiente comando:
 

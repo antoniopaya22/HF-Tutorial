@@ -22,9 +22,9 @@ COUNTER=1
 MAX_RETRY=5
 ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/antonio.com/orderers/orderer.antonio.com/msp/tlscacerts/tlsca.antonio.com-cert.pem
 
-CC_SRC_PATH="github.com/chaincode/chaincode_antonio/go/"
+CC_SRC_PATH="github.com/chaincode/go/"
 if [ "$LANGUAGE" = "node" ]; then
-	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_antonio/node/"
+	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/node/"
 fi
 
 echo "Channel name : "$CHANNEL_NAME

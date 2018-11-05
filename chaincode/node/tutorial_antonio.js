@@ -8,7 +8,7 @@
 const shim = require('fabric-shim');
 const util = require('util');
 
-let Chaincode = class {
+var Chaincode = class {
 
   // El metodo Init se llama cuando el Smart Contract tutorial_antonio es instanciado por la red Blockchain
   async Init(stub) {

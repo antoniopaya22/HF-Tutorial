@@ -77,6 +77,7 @@ updateAnchorPeers 0 1
 echo "Updating anchor peers for apple..."
 updateAnchorPeers 0 2
 
+
 ## Install chaincode on peer0.microsoft and peer0.apple
 echo "Installing chaincode on peer0.microsoft..."
 installChaincode 0 1
@@ -88,20 +89,20 @@ echo "Instantiating chaincode on peer0.apple..."
 instantiateChaincode 0 2
 
 # Query chaincode on peer0.microsoft
-echo "Querying chaincode on peer0.microsoft..."
-chaincodeQuery 0 1 100
+#echo "Querying chaincode on peer0.microsoft..."
+#chaincodeQuery 0 1 100
 
 # Invoke chaincode on peer0.microsoft
-echo "Sending invoke transaction on peer0.microsoft..."
-chaincodeInvoke 0 1
+#echo "Sending invoke transaction on peer0.microsoft..."
+#chaincodeInvoke 0 1
 
 ## Install chaincode on peer1.apple
-echo "Installing chaincode on peer1.apple..."
-installChaincode 1 2
+#echo "Installing chaincode on peer1.apple..."
+#installChaincode 1 2
 
 # Query on chaincode on peer1.apple, check if the result is 90
-echo "Querying chaincode on peer1.apple..."
-chaincodeQuery 1 2 90
+# echo "Querying chaincode on peer1.apple..."
+# chaincodeQuery 1 2 90
 
 echo
 echo "========= All GOOD, BYFN execution completed =========== "

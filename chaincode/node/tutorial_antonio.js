@@ -151,6 +151,29 @@ var Chaincode = class {
     await stub.putState(args[0], Buffer.from(JSON.stringify(laptop)));
     console.info('============= END : cambiarPropietarioLaptop ===========');
   }
+
+  // query callback representing the query of a chaincode
+  async queryTest(stub, args) {
+    if (args.length != 1) {
+      throw new Error('Incorrect number of arguments. Expecting name of the person to query')
+    }
+
+    let jsonResp = {};
+    let A = args[0];
+
+    // Get the state from the ledger
+    let Avalbytes = await stub.getState(A);
+    if (!Avalbytes) {
+      jsonResp.error = 'Failed to get state for ' + A;
+      throw new Error(JSON.stringify(jsonResp));
+    }
+
+    jsonResp.name = A;
+    jsonResp.amount = Avalbytes.toString();
+    console.info('Query Response:');
+    console.info(jsonResp);
+    return Avalbytes;
+  }
 };
 
 shim.start(new Chaincode());

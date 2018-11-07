@@ -8,7 +8,7 @@
 ---
 Profiles:
 
-    TwoOrgsOrdererGenesis:
+    LaptopsOrdererGenesis:
         Capabilities:
             <<: *ChannelCapabilities
         Orderer:
@@ -18,17 +18,17 @@ Profiles:
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:
-            SampleConsortium:
+            LaptopsConsortium:
                 Organizations:
-                    - *Microsoft
-                    - *Apple
-    TwoOrgsChannel:
-        Consortium: SampleConsortium
+                    - *microsoft
+                    - *apple
+    laptopschannel:
+        Consortium: LaptopsConsortium
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Microsoft
-                - *Apple
+                - *microsoft
+                - *apple
             Capabilities:
                 <<: *ApplicationCapabilities
 
@@ -39,17 +39,17 @@ Organizations:
         ID: OrdererMSP
         MSPDir: crypto-config/ordererOrganizations/antonio.com/msp
 
-    - &Microsoft
-        Name: MicrosoftMSP
-        ID: MicrosoftMSP
+    - &microsoft
+        Name: microsoftMSP
+        ID: microsoftMSP
         MSPDir: crypto-config/peerOrganizations/microsoft.antonio.com/msp
         AnchorPeers:
             - Host: peer0.microsoft.antonio.com
               Port: 7051
 
-    - &Apple
-        Name: AppleMSP
-        ID: AppleMSP
+    - &apple
+        Name: appleMSP
+        ID: appleMSP
         MSPDir: crypto-config/peerOrganizations/apple.antonio.com/msp
         AnchorPeers:
             - Host: peer0.apple.antonio.com

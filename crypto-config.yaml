@@ -14,7 +14,7 @@ OrdererOrgs:
 
 PeerOrgs:
 
-  - Name: Microsoft
+  - Name: microsoft
     Domain: microsoft.antonio.com
     EnableNodeOUs: true
     Template:
@@ -22,7 +22,7 @@ PeerOrgs:
     Users:
       Count: 1
 
-  - Name: Apple
+  - Name: apple
     Domain: apple.antonio.com
     EnableNodeOUs: true
     Template:

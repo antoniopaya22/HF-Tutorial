@@ -6,6 +6,32 @@
 # -----------------------------------------
 
 ---
+Profiles:
+
+    LaptopsOrdererGenesis:
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            LaptopsConsortium:
+                Organizations:
+                    - *microsoft
+                    - *apple
+    laptopschannel:
+        Consortium: LaptopsConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *microsoft
+                - *apple
+            Capabilities:
+                <<: *ApplicationCapabilities
+
 Organizations:
 
     - &OrdererOrg
@@ -66,30 +92,3 @@ Capabilities:
 
     Application: &ApplicationCapabilities
         V1_1: true
-        
-
-Profiles:
-
-    LaptopsOrdererGenesis:
-        Capabilities:
-            <<: *ChannelCapabilities
-        Orderer:
-            <<: *OrdererDefaults
-            Organizations:
-                - *OrdererOrg
-            Capabilities:
-                <<: *OrdererCapabilities
-        Consortiums:
-            LaptopsConsortium:
-                Organizations:
-                    - *microsoft
-                    - *apple
-    laptopschannel:
-        Consortium: LaptopsConsortium
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - *microsoft
-                - *apple
-            Capabilities:
-                <<: *ApplicationCapabilities

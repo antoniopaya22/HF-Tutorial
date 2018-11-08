@@ -1,54 +1,30 @@
 #!/bin/bash
 
+# Copyright IBM Corp All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
+# ========= hfNetwork ============
+#
+# Autor: Antonio Paya Gonzalez
+#
+# ================================
+
+
+# ============ VARIABLES =============
 set -e
 
-PROJECT_DIR=$PWD
-
-ARGS_NUMBER="$#"
+DIR=$PWD
+NUM_ARG="$#"
 COMMAND="$1"
-
-function verifyArg() {
-
-    if [ $ARGS_NUMBER -ne 1 ]; then
-        echo "Useage: networkOps.sh start | status | clean | cli | peer"
-        exit 1;
-    fi
-}
-
 OS_ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
 FABRIC_ROOT=$GOPATH/src/github.com/hyperledger/fabric
 
 
-function pullDockerImages(){
-  local FABRIC_TAG="1.2.0"
-  for IMAGES in peer orderer ccenv tools ca; do
-      echo "==> FABRIC IMAGE: $IMAGES"
-      echo
-      docker pull hyperledger/fabric-$IMAGES:$FABRIC_TAG
-      docker tag hyperledger/fabric-$IMAGES:$FABRIC_TAG hyperledger/fabric-$IMAGES
-  done
-}
+# ============ FUNCIONES =============
 
-function replacePrivateKey () {
 
-    echo # Replace key
-  
-    OPTS="-i"
-	cp docker-compose-template.yaml docker-compose.yaml
-
-    CURRENT_DIR=$PWD
-    cd crypto-config/peerOrganizations/microsoft.antonio.com/ca/
-    PRIV_KEY=$(ls *_sk)
-    cd $CURRENT_DIR
-    sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yaml
-    cd crypto-config/peerOrganizations/apple.antonio.com/ca/
-    PRIV_KEY=$(ls *_sk)
-    cd $CURRENT_DIR
-    sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yaml
-}
-
-function generateCerts(){
-
+# generarCertificados -> Genera los certificados
+function generarCertificados(){
     if [ ! -f $GOPATH/bin/cryptogen ]; then
         go get github.com/hyperledger/fabric/common/tools/cryptogen
     fi
@@ -65,8 +41,8 @@ function generateCerts(){
     echo
 }
 
-
-function generateChannelArtifacts(){
+# generarChannelArtifacts -> Genera los certificados
+function generarChannelArtifacts(){
 
     if [ ! -d ./channel-artifacts ]; then
 		mkdir channel-artifacts
@@ -91,32 +67,69 @@ function generateChannelArtifacts(){
 
     echo
 	echo "#################################################################"
-	echo "#######    Generating anchor peer update for Org1MSP   ##########"
+	echo "#####   Generating anchor peer update for microsoftMSP   ########"
 	echo "#################################################################"
 	configtxgen -profile laptopschannel -outputAnchorPeersUpdate ./channel-artifacts/microsoftMSPanchors.tx -channelID "laptopschannel" -asOrg microsoftMSP
 
 	echo
 	echo "#################################################################"
-	echo "#######    Generating anchor peer update for Org2MSP   ##########"
+	echo "#######   Generating anchor peer update for appleMSP   ##########"
 	echo "#################################################################"
 	configtxgen -profile laptopschannel -outputAnchorPeersUpdate ./channel-artifacts/appleMSPanchors.tx -channelID "laptopschannel" -asOrg appleMSP
 	echo
 }
 
+# downloadDockerImages -> Descarga las imagenes docker
+#  con version 1.2.0
+function downloadDockerImages(){
+    echo
+	echo "**********************************************************"
+	echo "*******         Descargando imagenes docker       ********"
+	echo "**********************************************************"
+    local FABRIC_TAG="1.2.0"
+    for IMAGES in peer orderer ccenv tools ca; do
+        echo "==> FABRIC IMAGE: $IMAGES"
+        echo
+        docker pull hyperledger/fabric-$IMAGES:$FABRIC_TAG
+        docker tag hyperledger/fabric-$IMAGES:$FABRIC_TAG hyperledger/fabric-$IMAGES
+    done
+}
+
+# remplazarClavePrivada -> Crea el archivo docker-compose.yaml
+#    a partir de docker-compose-template.yaml y remplaza las
+#    CAX_PRIVATE_KEY por las claves que se encuentran en la carpeta crypto-config
+function remplazarClavePrivada () {
+    echo 
+    echo "---------- Remplazando clave privada --------------"
+    echo
+    OPTS="-i"
+	cp docker-compose-template.yaml docker-compose.yaml
+    CURRENT_DIR=$PWD
+    cd crypto-config/peerOrganizations/microsoft.antonio.com/ca/
+    PRIV_KEY=$(ls *_sk)
+    cd $CURRENT_DIR
+    sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yaml
+    cd crypto-config/peerOrganizations/apple.antonio.com/ca/
+    PRIV_KEY=$(ls *_sk)
+    cd $CURRENT_DIR
+    sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yaml
+}
+
+
+# startNetwork -> Inicia la red Fabric
 function startNetwork() {
-
     echo
     echo "================================================="
-    echo "---------- Starting the network -----------------"
+    echo "---------- Iniciando la red Fabric --------------"
     echo "================================================="
     echo
-
-    cd $PROJECT_DIR
+    cd $DIR
     docker-compose -f docker-compose.yaml up -d
 }
 
+# cleanNetwork -> Borra certificados, imagenes docker, etc.
 function cleanNetwork() {
-    cd $PROJECT_DIR
+    cd $DIR
 
     if [ -d ./channel-artifacts ]; then
             rm -rf ./channel-artifacts
@@ -138,36 +151,42 @@ function cleanNetwork() {
         rm ./docker-compose.yamlt
     fi
 
-    # This operations removes all docker containers and images regardless
-    #
     docker rm -f $(docker ps -aq)
     docker rmi -f $(docker images -q)
     docker volume rm -f $(docker volume ls -q)
-
-    # This removes containers used to support the running chaincode.
-    #docker rm -f $(docker ps --filter "name=dev" --filter "name=peer0.org1.example.com" --filter "name=cli" --filter "name=orderer.example.com" -q)
-
-    # This removes only images hosting a running chaincode, and in this
-    # particular case has the prefix dev-*
-    #docker rmi $(docker images | grep dev | xargs -n 1 docker images --format "{{.ID}}" | xargs -n 1 docker rmi -f)
 }
 
+# networkStatus -> Devuelve el estado de la red
 function networkStatus() {
     docker ps --format "{{.Names}}: {{.Status}}" | grep '[peer0* | orderer* | cli ]'
 }
 
+# dockerCli -> Inicia un docker cli
 function dockerCli(){
     docker exec -it cli /bin/bash
 }
 
+# comprobarArg -> Comprueba si el numero de parametros es correcto (arg==1)
+function comprobarArg() {
+    if [ $NUM_ARG -ne 1 ]; then
+        echo "Modo de ejecucion: "
+        echo "      # hfNetwork.sh start | status | clean | cli"
+        exit 1;
+        exit 1;
+    fi
+}
+
+
+# ============ RUN =============
+
 # Network operations
-verifyArg
+comprobarArg
 case $COMMAND in
     "start")
-        generateCerts
-        generateChannelArtifacts
-        replacePrivateKey
-        pullDockerImages
+        generarCertificados
+        generarChannelArtifacts
+        remplazarClavePrivada
+        downloadDockerImages
         startNetwork
         ;;
     "status")
@@ -180,6 +199,7 @@ case $COMMAND in
         dockerCli
         ;;
     *)
-        echo "Useage: networkOps.sh start | status | clean | cli "
+        echo "Modo de ejecucion: "
+        echo "      # hfNetwork.sh start | status | clean | cli"
         exit 1;
 esac

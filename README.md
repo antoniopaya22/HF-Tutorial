@@ -46,7 +46,9 @@ $ cd HF-Tutorial
 El siguiente paso es descargar la última versión de las imágenes Docker de Hyperledger Fabric y añadirles la etiqueta de `latest`. Ejecuta el siguiente comando para descargar dichos archivos.
 
 ```bash
-$ curl -sSL https://goo.gl/6wtTN5 | bash -s 1.1.0
+$ curl -sSL http://bit.ly/2ysbOFE | bash -s 1.3.0
+$ sudo apt install libtool libltdl-dev
+$ go get github.com/miekg/pkcs11
 ```
 
 > Es recomendable que la máquina en uso no tenga otras imágenes de Docker de Hyperledger Fabric ya que puede dar lugar a errores. Puedes borrar todas las imagenes de Docker con los siguientes comandos:
@@ -67,6 +69,7 @@ Una vez descargadas las imágenes Docker, tenemos que asegurarnos que estén en 
  Además de las imágenes Docker se ha descargado una carpeta bin que contiene los ejecutables necesarios para instanciar una red Fabric, como `cryptogen, configtxgen, configxlator, peer`. Ahora debemos de añadir la carpeta bin a nuestra variable de entorno PATH:
 
  ```bash
+ $ cd fabric-samples
  $ export PATH=$PWD/bin:$PATH
  ```
 
@@ -74,24 +77,37 @@ Una vez descargadas las imágenes Docker, tenemos que asegurarnos que estén en 
  Una vez hayas completado todo lo anterior sin problemas, vamos a iniciar por primera vez nuestra red Fabric. Para ello nos situamos en la raíz del repositorio y ejecutamos:
 
  ```bash
- $ ./byfn.sh -m generate
+ $ ./hfNetwork.sh start
  ```
-
- > Al ejecutar aparecerá una pregunta que nos pide `Y/N`. Pulsamos `Y` para continuar.
 
  Esto genera todos los certificados y llaves (keys) para nuestras diversas entidades de la red Fabric, incluyendo el genesis block que se usa para iniciar el ordering service y las transacciones necesarias para crear un canal.
 
-Una vez generados los certificados vamos a iniciar por fin la red:
-
- ```bash
- $ ./byfn.sh -m up
- ```
-
-  > Al ejecutar aparecerá una pregunta que nos pide `Y/N`. Pulsamos `Y` para continuar.
+Una vez generados los certificados vamos a inicia la red:
 
 Si todo ha salido bien deberíamos de tener levantada nuestra red Fabric.
 
 > Para "apagar" la red debemos ejecutar:
 > ```bash
-> $ ./byfn.sh -m down
+> $ ./hfNetwork.sh clean
 > ```
+
+Si todo ha salido bien, al hacer `docker ps` deberíamos tener una salida parecida a la siguiente:
+
+```bash
+```
+
+## 5.- Crear canal:
+Cuando tengamos levantada la red Fabric, procederemos a crear un canal con nombre `laptopschannel` y haremos que las dos organizaciones `Microsoft` y `Apple` se unan a él.
+
+Para ello primero tenemos que ejecutar los siguientes comandos en orden:
+
+```bash
+./hfNetwork.sh cli 
+./scripts/01-createchannel.sh //Se crea el canal
+./scripts/02-joinApple.sh // Se une la organización Apple al canal
+./scripts/03-joinMicrosoft.sh // Se une la organización Microsoft al canal
+./script/04-installApple.sh // se instala el chaincode en el peer de Apple
+./script/05-installMicrosoft.sh // se instala el chaincode en el peer de Microsoft
+./script/06-instanciate.sh // Se instancia el smart contract
+./script/07-init.sh
+```

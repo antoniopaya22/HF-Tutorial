@@ -37,7 +37,7 @@ function generarCertificados(){
 		rm -rf ./crypto-config
 	fi
 
-    $GOPATH/bin/cryptogen generate --config=./crypto-config.yaml
+    cryptogen generate --config=./crypto-config.yaml
     echo
 }
 

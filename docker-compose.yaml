@@ -8,10 +8,10 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca-microsoft
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.microsoft.antonio.com-cert.pem
-      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/16843c1fd0eea716d5e150ec36ef8ce331cb13fd7941963aedbc531ac6d78d4c_sk
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/6f28d63fa834e3e407faf47cf6d37489fcc7f746dfbcbe92fdf1d06507b5f881_sk
     ports:
       - "7054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.microsoft.antonio.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/16843c1fd0eea716d5e150ec36ef8ce331cb13fd7941963aedbc531ac6d78d4c_sk -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.microsoft.antonio.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/6f28d63fa834e3e407faf47cf6d37489fcc7f746dfbcbe92fdf1d06507b5f881_sk -b admin:adminpw -d'
     volumes:
       - ./crypto-config/peerOrganizations/microsoft.antonio.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca_peerMicrosoft
@@ -23,10 +23,10 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca-apple
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.apple.antonio.com-cert.pem
-      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/de79c900e041abd6de6638be2f6433113e731d615fa6d864193d39a165570121_sk
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/d30250407d092809e22d9fec89c343c9331988f587897394acbf307b0fadd125_sk
     ports:
       - "8054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.apple.antonio.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/de79c900e041abd6de6638be2f6433113e731d615fa6d864193d39a165570121_sk -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.apple.antonio.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/d30250407d092809e22d9fec89c343c9331988f587897394acbf307b0fadd125_sk -b admin:adminpw -d'
     volumes:
       - ./crypto-config/peerOrganizations/apple.antonio.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca_peerApple

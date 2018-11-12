@@ -1,0 +1,78 @@
+name: "microsoft Client"
+version: "1.0"
+
+client:
+  organization: microsoft
+  credentialStore:
+    path: "./hfc-key-store"
+    cryptoStore:
+      path: "./hfc-key-store"
+      
+channels:
+  mychannel:
+    orderers:
+      - orderer.antonio.com
+    peers:
+      peer0.microsoft.antonio.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer0.apple.antonio.com:
+        endorsingPeer: true
+        chaincodeQuery: false
+        ledgerQuery: true
+        eventSource: false
+
+organizations:
+  microsoft:
+    mspid: microsoftMSP
+    peers:
+      - peer0.microsoft.antonio.com
+      - peer1.microsoft.antonio.com
+    certificateAuthorities:
+      - ca.microsoft.antonio.com
+    adminPrivateKey:
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/keystore/0d304898e000db2fcf9f835e788942bbfebf6dbf32aee032ab3dc8240b7eb32a_sk
+    signedCert:
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/signcerts/Admin@microsoft.antonio.com-cert.pem
+
+orderers:
+  orderer.antonio.com:
+    url: grpcs://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.antonio.com
+      grpc-max-send-message-length: 15
+    tlsCACerts:
+      path: crypto-config/ordererOrganizations/antonio.com/msp/tlscacerts/tlsca.antonio.com-cert.pem
+
+peers:
+  peer0.microsoft.antonio.com:
+    url: grpcs://localhost:7051
+    eventUrl: grpcs://localhost:7053
+    grpcOptions:
+      ssl-target-name-override: peer0.microsoft.antonio.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/peers/peer0.microsoft.antonio.com/msp/tlscacerts/tlsca.microsoft.antonio.com-cert.pem
+
+  peer1.microsoft.antonio.com:
+    url: grpcs://localhost:8051
+    eventUrl: grpcs://localhost:8053
+    grpcOptions:
+      ssl-target-name-override: peer1.microsoft.antonio.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/peers/peer1.microsoft.antonio.com/msp/tlscacerts/tlsca.microsoft.antonio.com-cert.pem
+
+certificateAuthorities:
+  ca.microsoft.antonio.com:
+    url: https://localhost:7054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/ca/ca.microsoft.antonio.com-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca-microsoft

@@ -94,6 +94,14 @@ Si todo ha salido bien deberíamos de tener levantada nuestra red Fabric.
 Si todo ha salido bien, al hacer `docker ps` deberíamos tener una salida parecida a la siguiente:
 
 ```bash
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                              NAMES
+b3ad8c954de2        hyperledger/fabric-tools     "/bin/bash"              7 seconds ago       Up 6 seconds                                           cli
+7fa28abb6525        hyperledger/fabric-ca        "sh -c 'fabric-ca-se…"   17 seconds ago      Up 11 seconds       0.0.0.0:7054->7054/tcp             ca_peerMicrosoft
+495c1b48f730        hyperledger/fabric-peer      "peer node start"        17 seconds ago      Up 7 seconds        0.0.0.0:7051-7053->7051-7053/tcp   peer0.microsoft.antonio.com
+1ba5aade9f72        hyperledger/fabric-peer      "peer node start"        17 seconds ago      Up 8 seconds                                           peer0.apple.antonio.com
+c37a065d00c6        hyperledger/fabric-ca        "sh -c 'fabric-ca-se…"   17 seconds ago      Up 10 seconds       0.0.0.0:8054->7054/tcp             ca_peerApple
+1360d36e2ee8        hyperledger/fabric-orderer   "orderer"                17 seconds ago      Up 9 seconds        0.0.0.0:7050->7050/tcp             orderer.antonio.com
+
 ```
 
 ## 5.- Crear canal:

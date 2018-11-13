@@ -1,14 +1,11 @@
 /*
- * The sample smart contract for documentation topic:
- * Writing Your First Blockchain Application
+ * Smart Contract de ejemplo para HF Tutorial
+ *
+ * Autor: Antonio Paya Gonzalez
  */
 
 package main
 
-/* Imports
- * 4 utility libraries for formatting, handling bytes, reading and writing JSON, and string manipulation
- * 2 specific Hyperledger Fabric specific libraries for Smart Contracts
- */
 import (
 	"bytes"
 	"encoding/json"
@@ -19,11 +16,11 @@ import (
 	sc "github.com/hyperledger/fabric/protos/peer"
 )
 
-// Define the Smart Contract structure
+// Define la estructura del SmartContract
 type SmartContract struct {
 }
 
-// Define the laptop structure, with 4 properties.  Structure tags are used by encoding/json library
+// Define la estructura de Laptop
 type Laptop struct {
 	Marca       string `json:"marca"`
 	Modelo      string `json:"modelo"`
@@ -32,22 +29,18 @@ type Laptop struct {
 }
 
 /*
- * The Init method is called when the Smart Contract "fabcar" is instantiated by the blockchain network
- * Best practice is to have any Ledger initialization in separate function -- see initLedger()
+ * El metodo Init se llama cuando el Smart Contract se instancia por la red blockchain
  */
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
 	return shim.Success(nil)
 }
 
 /*
- * The Invoke method is called as a result of an application request to run the Smart Contract "fabcar"
- * The calling application program has also specified the particular smart contract function to be called, with arguments
+ * El metodo Invoke se llama como resultado de ejecutar el Smart Contract
  */
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
-
-	// Retrieve the requested Smart Contract function and arguments
 	function, args := APIstub.GetFunctionAndParameters()
-	// Route to the appropriate handler function to interact with the ledger appropriately
+
 	if function == "queryLaptop" {
 		return s.queryLaptop(APIstub, args)
 	} else if function == "initLedger" {
@@ -60,13 +53,13 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.cambiarPropietarioLaptop(APIstub, args)
 	}
 
-	return shim.Error("Invalid Smart Contract function name.")
+	return shim.Error("Nombre de funcion del SmartContract invalido o inexistente.")
 }
 
 func (s *SmartContract) queryLaptop(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 1 {
-		return shim.Error("Incorrect number of arguments. Expecting 1")
+		return shim.Error("Numero incorrecto de argumentos, se esperaba 1")
 	}
 
 	laptopAsBytes, _ := APIstub.GetState(args[0])
@@ -96,7 +89,7 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 func (s *SmartContract) createLaptop(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 5 {
-		return shim.Error("Incorrect number of arguments. Expecting 5")
+		return shim.Error("Numero incorrecto de argumentos, se esperaban 5")
 	}
 
 	var laptop = Laptop{Marca: args[1], Modelo: args[2], Color: args[3], Propietario: args[4]}
@@ -118,7 +111,7 @@ func (s *SmartContract) queryAllLaptops(APIstub shim.ChaincodeStubInterface) sc.
 	}
 	defer resultsIterator.Close()
 
-	// buffer is a JSON array containing QueryResults
+	// buffer es un array JSON con los resultados de la consulta
 	var buffer bytes.Buffer
 	buffer.WriteString("[")
 
@@ -128,7 +121,6 @@ func (s *SmartContract) queryAllLaptops(APIstub shim.ChaincodeStubInterface) sc.
 		if err != nil {
 			return shim.Error(err.Error())
 		}
-		// Add a comma before array members, suppress it for the first array member
 		if bArrayMemberAlreadyWritten == true {
 			buffer.WriteString(",")
 		}
@@ -138,7 +130,7 @@ func (s *SmartContract) queryAllLaptops(APIstub shim.ChaincodeStubInterface) sc.
 		buffer.WriteString("\"")
 
 		buffer.WriteString(", \"Record\":")
-		// Record is a JSON object, so we write as-is
+		// Guardarlo como un objeto JSON
 		buffer.WriteString(string(queryResponse.Value))
 		buffer.WriteString("}")
 		bArrayMemberAlreadyWritten = true
@@ -153,7 +145,7 @@ func (s *SmartContract) queryAllLaptops(APIstub shim.ChaincodeStubInterface) sc.
 func (s *SmartContract) cambiarPropietarioLaptop(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 2 {
-		return shim.Error("Incorrect number of arguments. Expecting 2")
+		return shim.Error("Numero incorrecto de argumentos, se esperaban 2")
 	}
 
 	laptopAsBytes, _ := APIstub.GetState(args[0])
@@ -168,12 +160,12 @@ func (s *SmartContract) cambiarPropietarioLaptop(APIstub shim.ChaincodeStubInter
 	return shim.Success(nil)
 }
 
-// The main function is only relevant in unit test mode. Only included here for completeness.
+// Esta funcion solo es relevante para pruebas unitarias.
 func main() {
 
 	// Create a new Smart Contract
 	err := shim.Start(new(SmartContract))
 	if err != nil {
-		fmt.Printf("Error creating new Smart Contract: %s", err)
+		fmt.Printf("Error al crear el Smart Contract: %s", err)
 	}
 }

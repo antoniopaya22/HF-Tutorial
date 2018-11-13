@@ -7,7 +7,6 @@ var path = require('path');
 var util = require('util');
 var os = require('os');
 
-//
 var fabric_client = Fabric_Client;
 var fabric_ca_client = null;
 var admin_user = null;
@@ -15,7 +14,6 @@ var member_user = null;
 var store_path = path.join(os.homedir(), '.hfc-key-store');
 console.log(' Store path:'+store_path);
 
-// create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
 fabric_client.initCredentialStores().then(() => {
     fabric_ca_client = fabric_client.getCertificateAuthority();
     return fabric_client.getUserContext('admin', true);
@@ -28,7 +26,6 @@ fabric_client.initCredentialStores().then(() => {
     }
     return fabric_ca_client.register({enrollmentID: 'user1', affiliation: ''}, admin_user);
 }).then((secret) => {
-    // next we need to enroll the user with CA server
     console.log('Successfully registered user1 - secret:'+ secret);
 
     return fabric_ca_client.enroll({enrollmentID: 'user1', enrollmentSecret: secret});

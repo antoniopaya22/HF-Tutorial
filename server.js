@@ -16,61 +16,22 @@
 //==========MODULOS===============
 var express = require('express');
 var app = express();
-var swig = require('swig');
 var bodyParser = require('body-parser');
 var rest = require('request');
-var jwt = require('jsonwebtoken');
-var log4js = require('log4js');
-log4js.configure({
-    appenders: { cheese: { type: 'file', filename: 'hftutorial.log' } },
-    categories: { default: { appenders: ['cheese'], level: 'all' } }
-});
+var gestorFabric = require('./controller.js');
 
 //==========VARIABLES===============
 app.set('port', 8081);
 app.set('rest',rest);
-app.set('jwt', jwt);
-app.set('logger', log4js.getLogger('hftutorial'));
 
 //==========INICIACION=============
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
-app.use(fileUpload());
-
 
 //==========RUTAS================
 
-require("./routes/rapilaptop.js")(app, swig);
-
-
-app.get('/', function (req, res) {
-    res.redirect("/home");
-});
-
-
-//=========ERRORES==============
-app.use(function (err, req, res, next) {
-    console.log("Error producido: " + err);
-    if (!res.headersSent) {
-        res.status(400);
-        var respuesta = swig.renderFile('views/error.html', {
-            error: "Error 400",
-            mensaje: err
-        });
-        res.send(respuesta);
-    }
-});
-
-app.get('*', function(req, res){
-    var respuesta = swig.renderFile('views/error.html', {
-        error: "Error 404 Page not found",
-        mensaje: "La página "+req.url+" no existe"
-    });
-    res.status(404);
-    res.send(respuesta);
-});
-
+require("./routes.js")(app, gestorFabric);
 
 //===========RUN===============
 // Lanza el servidor

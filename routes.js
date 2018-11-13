@@ -9,7 +9,7 @@ module.exports = function (app, redFabric) {
         redFabric.init().then(function() {
           return redFabric.queryAllLaptops()
         }).then(function (data) {
-          res.status(200).json(data[0].toString())
+          res.status(200).json(JSON.parse(data[0].toString()))
         }).catch(function(err) {
           res.status(500).json({error: err.toString()})
         })

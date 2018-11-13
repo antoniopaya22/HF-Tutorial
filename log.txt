@@ -1,0 +1,1 @@
+./scripts/07-init.sh: línea 22: peer: orden no encontrada

@@ -1,3 +1,4 @@
+'use strict';
 /**
  *     _    _ ______   _______ _    _ _______ ____  _____  _____          _      
  *    | |  | |  ____| |__   __| |  | |__   __/ __ \|  __ \|_   _|   /\   | |     
@@ -18,11 +19,12 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var rest = require('request');
-var gestorFabric = require('./controller.js');
+var RedFabric = require('./redFabric.js');
 
 //==========VARIABLES===============
 app.set('port', 8081);
 app.set('rest',rest);
+const redFabric = new RedFabric('admin');
 
 //==========INICIACION=============
 app.use(bodyParser.json());
@@ -31,7 +33,7 @@ app.use(express.static('public'));
 
 //==========RUTAS================
 
-require("./routes.js")(app, gestorFabric);
+require("./routes.js")(app, redFabric);
 
 //===========RUN===============
 // Lanza el servidor

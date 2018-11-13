@@ -9,7 +9,7 @@ client:
       path: "./hfc-key-store"
       
 channels:
-  mychannel:
+  laptopschannel:
     orderers:
       - orderer.antonio.com
     peers:
@@ -33,7 +33,7 @@ organizations:
     certificateAuthorities:
       - ca.microsoft.antonio.com
     adminPrivateKey:
-      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/keystore/0d304898e000db2fcf9f835e788942bbfebf6dbf32aee032ab3dc8240b7eb32a_sk
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/keystore/26ef3fb6b8196ff1a404aef6e67eb03e02d49c7f82cbe26fa4afbca89c809e1e_sk
     signedCert:
       path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/signcerts/Admin@microsoft.antonio.com-cert.pem
 

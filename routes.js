@@ -15,4 +15,17 @@ module.exports = function (app, redFabric) {
         })
     });
 
+    /**
+     * POST -> add laptop
+     */
+    app.post("/api/laptop", function (req, res) {
+      redFabric.init().then(function() {
+        return redFabric.add_laptop()
+      }).then(function (data) {
+        res.status(200).json(JSON.parse(data[0].toString()))
+      }).catch(function(err) {
+        res.status(500).json({error: err.toString()})
+      })
+    });
+
 };

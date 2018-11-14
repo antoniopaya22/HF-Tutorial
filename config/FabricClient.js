@@ -52,26 +52,24 @@ class FBClient extends FabricClient {
                     let handle = setTimeout(() => {
                         event_hub.unregisterTxEvent(transaction_id_string);
                         event_hub.disconnect();
-                        resolve({event_status : 'TIMEOUT'}); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
+                        resolve({event_status : 'TIMEOUT'});
                     }, 3000);
                     console.log(transaction_id_string)
                     event_hub.registerTxEvent(transaction_id_string, (tx, code) => {
                         clearTimeout(handle);
-        
-                        // now let the application know what happened
+
                         var return_status = {event_status : code, tx_id : transaction_id_string};
                         if (code !== 'VALID') {
                             console.error('The transaction was invalid, code = ' + code);
-                            resolve(return_status); // we could use reject(new Error('Problem with the tranaction, event status ::'+code));
+                            resolve(return_status);
                         } else {
                             console.log('The transaction has been committed on peer ' + event_hub.getPeerAddr());
                             resolve(return_status);
                         }
                     }, (err) => {
-                        //this is the callback if something goes wrong with the event registration or processing
                         reject(new Error('There was a problem with the eventhub ::'+err));
                     },
-                        {disconnect: true} //disconnect when complete
+                        {disconnect: true}
                     );
                     event_hub.connect();
         

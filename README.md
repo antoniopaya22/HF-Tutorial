@@ -1,5 +1,5 @@
 # HF-Tutorial
-Tutorial para poder crear una red blockchain Hyperledger Fabric junto con una web-app.
+Tutorial para poder crear una red blockchain Hyperledger Fabric junto con una web-app que se conecta con la red mediante una API Rest.
 
 ## 1.- Prerrequisitos:
 Antes de poder comenzar a configurar nuestra red Fabric necesitamos instalar los prerrequisitos en las máquinas que queramos utilizar para el desarrollo de la aplicación.

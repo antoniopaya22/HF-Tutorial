@@ -29,7 +29,7 @@ class RedFabric {
     })
   }
 
-   queryAllLaptops() {
+  queryAllLaptops() {
     var tx_id = this.connection.newTransactionID();
     var requestData = {
       chaincodeId: 'mycontract',
@@ -37,8 +37,29 @@ class RedFabric {
       args: [],
       txId: tx_id
     };
-    var channel = this.connection.getChannel();
-    return channel.queryByChaincode(requestData);
+    return this.connection.query(requestData);
+  }
+
+  queryLaptop(id) {
+    var tx_id = this.connection.newTransactionID();
+    var requestData = {
+      chaincodeId: 'mycontract',
+      fcn: 'queryLaptop',
+      args: [id],
+      txId: tx_id
+    };
+    return this.connection.query(requestData);
+  }
+
+  add_laptop(laptop) {
+    var tx_id = this.connection.newTransactionID();
+    var requestData = {
+      chaincodeId: 'mycontract',
+      fcn: 'createLaptop',
+      args: [laptop.id,laptop.marca,laptop.modelo,laptop.color,laptop.propietario],
+      txId: tx_id
+    };
+    return this.connection.submitTransaction(requestData,tx_id);
   }
 }
 

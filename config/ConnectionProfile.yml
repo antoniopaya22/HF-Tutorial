@@ -33,7 +33,7 @@ organizations:
     certificateAuthorities:
       - ca.microsoft.antonio.com
     adminPrivateKey:
-      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/keystore/26ef3fb6b8196ff1a404aef6e67eb03e02d49c7f82cbe26fa4afbca89c809e1e_sk
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/keystore/4174636394baee5e4ed165df9a280cb93326bb6b93ed38fb60b62e6f8f37e860_sk
     signedCert:
       path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/signcerts/Admin@microsoft.antonio.com-cert.pem
 
@@ -42,7 +42,7 @@ orderers:
     url: grpcs://localhost:7050
     grpcOptions:
       ssl-target-name-override: orderer.antonio.com
-      grpc-max-send-message-length: 15
+      grpc-max-send-message-length: 5000
     tlsCACerts:
       path: crypto-config/ordererOrganizations/antonio.com/msp/tlscacerts/tlsca.antonio.com-cert.pem
 

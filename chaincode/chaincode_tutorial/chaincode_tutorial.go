@@ -47,6 +47,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.initLedger(APIstub)
 	} else if function == "createLaptop" {
 		return s.createLaptop(APIstub, args)
+	} else if function == "deleteLaptop" {
+		return s.deleteLaptop(APIstub, args)
 	} else if function == "queryAllLaptops" {
 		return s.queryAllLaptops(APIstub)
 	} else if function == "cambiarPropietarioLaptop" {
@@ -54,16 +56,6 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 	}
 
 	return shim.Error("Nombre de funcion del SmartContract invalido o inexistente.")
-}
-
-func (s *SmartContract) queryLaptop(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-
-	if len(args) != 1 {
-		return shim.Error("Numero incorrecto de argumentos, se esperaba 1")
-	}
-
-	laptopAsBytes, _ := APIstub.GetState(args[0])
-	return shim.Success(laptopAsBytes)
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -86,6 +78,16 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 	return shim.Success(nil)
 }
 
+func (s *SmartContract) queryLaptop(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return shim.Error("Numero incorrecto de argumentos, se esperaba 1")
+	}
+
+	laptopAsBytes, _ := APIstub.GetState(args[0])
+	return shim.Success(laptopAsBytes)
+}
+
 func (s *SmartContract) createLaptop(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 5 {
@@ -97,6 +99,16 @@ func (s *SmartContract) createLaptop(APIstub shim.ChaincodeStubInterface, args [
 	laptopAsBytes, _ := json.Marshal(laptop)
 	APIstub.PutState(args[0], laptopAsBytes)
 
+	return shim.Success(nil)
+}
+
+func (s *SmartContract) deleteLaptop(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return shim.Error("Numero incorrecto de argumentos, se esperaba 1")
+	}
+
+	APIstub.DelState(args[0])
 	return shim.Success(nil)
 }
 

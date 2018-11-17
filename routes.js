@@ -17,10 +17,23 @@ module.exports = function (app, redFabric) {
      * GET laptop : id
      */
     app.get("/api/laptop/:id", function (req, res) {
-      //gestorFabric.get_all_laptops(req, res);
       var id = req.params.id;
       redFabric.init().then(function() {
         return redFabric.queryLaptop(id)
+      }).then(function (data) {
+        res.status(200).json(data)
+      }).catch(function(err) {
+        res.status(500).json({error: err.toString()})
+      })
+  });
+
+  /**
+     * DELETE laptop : id
+     */
+    app.delete("/api/laptop/:id", function (req, res) {
+      var id = req.params.id;
+      redFabric.init().then(function() {
+        return redFabric.deleteLaptop(id)
       }).then(function (data) {
         res.status(200).json(data)
       }).catch(function(err) {

@@ -13,7 +13,6 @@ class FBClient extends FabricClient {
     }
 
     submitTransaction(requestData,txid) {
-        var returnData;
         var _this = this;
         var channel = this.getChannel();
         var peer = this.getPeersForOrg()[0];

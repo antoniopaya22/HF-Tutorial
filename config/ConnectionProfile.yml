@@ -33,7 +33,7 @@ organizations:
     certificateAuthorities:
       - ca.microsoft.antonio.com
     adminPrivateKey:
-      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/keystore/7c41dcc3c300824e3bd5209b5984c4a8568a197fc11c2497eae27b54c787de81_sk
+      path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/keystore/b171e68e67637e1ea3bf818bbad676484fe39e1a70aa637c0736ff5b92b74c37_sk
     signedCert:
       path: crypto-config/peerOrganizations/microsoft.antonio.com/users/Admin@microsoft.antonio.com/msp/signcerts/Admin@microsoft.antonio.com-cert.pem
 

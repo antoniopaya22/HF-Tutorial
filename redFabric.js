@@ -51,6 +51,17 @@ class RedFabric {
     return this.connection.query(requestData);
   }
 
+  deleteLaptop(id) {
+    var tx_id = this.connection.newTransactionID();
+    var requestData = {
+      chaincodeId: 'mycontract',
+      fcn: 'deleteLaptop',
+      args: [id],
+      txId: tx_id
+    };
+    return this.connection.submitTransaction(requestData,tx_id);
+  }
+
   add_laptop(laptop) {
     var tx_id = this.connection.newTransactionID();
     var requestData = {

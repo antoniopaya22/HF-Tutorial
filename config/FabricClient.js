@@ -98,7 +98,7 @@ class FBClient extends FabricClient {
                 console.log('Transaction failed to be committed to the ledger due to ::' + results[1].event_status);
             }
         }).then(function () {
-            return returnData;
+            return {"trans_id":tx_id["_transaction_id"]};
         })
     }
 

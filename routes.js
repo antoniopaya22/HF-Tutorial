@@ -61,10 +61,10 @@ module.exports = function (app, redFabric) {
     /**
      * PUT -> update laptop
      */
-    app.put("/api/laptop/:id", function (req, res) {
+    app.put("/api/laptop", function (req, res) {
       var id = req.params.id;
       var laptop = {
-        id : id,
+        id : req.body.id,
         marca : req.body.marca,
         modelo : req.body.modelo,
         color : req.body.color,

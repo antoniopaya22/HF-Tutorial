@@ -1,5 +1,5 @@
 # HF-Tutorial
-Tutorial para poder crear una red blockchain Hyperledger Fabric junto con una web-app.
+Tutorial para poder crear una red blockchain Hyperledger Fabric junto con una web-app que se conecta con la red mediante una API Rest.
 
 ## 1.- Prerrequisitos:
 Antes de poder comenzar a configurar nuestra red Fabric necesitamos instalar los prerrequisitos en las máquinas que queramos utilizar para el desarrollo de la aplicación.
@@ -104,7 +104,7 @@ c37a065d00c6        hyperledger/fabric-ca        "sh -c 'fabric-ca-se…"   17 s
 
 ```
 
-## 5.- Crear canal:
+## 5.- Crear canal, unir organizaciones e instanciar chaincode:
 Cuando tengamos levantada la red Fabric, procederemos a crear un canal con nombre `laptopschannel` y haremos que las dos organizaciones `Microsoft` y `Apple` se unan a él.
 
 Para ello primero tenemos que ejecutar los siguientes comandos en orden:
@@ -119,3 +119,48 @@ Para ello primero tenemos que ejecutar los siguientes comandos en orden:
 ./script/06-instanciate.sh // Se instancia el smart contract
 ./script/07-init.sh
 ```
+
+## 6.- Registrar Admin y un usuario:
+Para registrar un administrador primero necesitamos instalar las dependencias necesarias:
+
+```node
+npm install
+```
+
+Una vez hecho esto procedemos a registrar al administrador:
+```node
+node registerAdmin.js
+```
+> En caso de que dicho comando nos devuelva un error, puede ser debido a que no encuentra la adminPrivateKey. Para ello editamos dicha variable en `config/ConnectionProfile.yml` y le damos como valor el nombre del archivo situado en: `\crypto-config\peerOrganizations\microsoft.antonio.com\users\Admin@microsoft.antonio.com\msp\keystore`
+
+Una vez registrado el admin, podemos registrar nuestro primer usuario llamado user1:
+
+```node
+node registerUser.js
+```
+
+## 7.- Iniciar servidor y API Rest:
+
+Ahora solo nos queda levantar el servidor NodeJS con nuestra API Rest:
+
+```node
+npm start
+```
+
+Puedes realizar peticiones para interactuar con la red, como peticiones POST, GET y PUT. Las operaciones disponibles son:
+
+- **Obtener todos los laptops**: GET `/api/laptops`
+- **Obtener un laptop dado su id**: GET `/api/laptop/id`
+- **Añadir laptop**: POST `/api/laptop`
+    - Body:
+        - marca
+        - modelo
+        - color
+        - propietario
+- **Editar laptop**: PUT `/api/laptop`
+    - Body:
+        - id
+        - marca
+        - modelo
+        - color
+        - propietario

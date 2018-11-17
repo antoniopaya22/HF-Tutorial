@@ -151,6 +151,10 @@ function cleanNetwork() {
         rm ./docker-compose.yamlt
     fi
 
+    if [ -d ./hfc-key-store ]; then
+            rm -rf ./hfc-key-store
+    fi
+
     docker rm -f $(docker ps -aq)
     docker rmi -f $(docker images -q)
     docker volume rm -f $(docker volume ls -q)

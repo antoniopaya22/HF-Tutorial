@@ -1,5 +1,23 @@
 # HF-Tutorial
-Tutorial para poder crear una red blockchain Hyperledger Fabric junto con una web-app que se conecta con la red mediante una API Rest.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d2836631eeda4502bea5a502cc1f851a)](https://www.codacy.com/app/antonioalfa22/HF-Tutorial?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=antonioalfa22/HF-Tutorial&amp;utm_campaign=Badge_Grade)
+
+
+Tutorial para poder crear una red blockchain Hyperledger Fabric junto con un cliente Angular que se conecta con la red mediante una API Rest.
+ ![Preview](./doc/img/hftutorial.gif)
+
+
+- [HF-Tutorial](#hf-tutorial)
+    - [1.- Prerrequisitos:](#1--prerrequisitos)
+        - [1.1 .- Docker y Docker-Compose](#11---docker-y-docker-compose)
+        - [1.2 .- Go](#12---go)
+        - [1.3 .- NodeJS Runtime y NPM](#13---nodejs-runtime-y-npm)
+    - [2.- Clonar el repositorio](#2--clonar-el-repositorio)
+    - [3.- Imágenes Docker de Fabric y Ejecutables:](#3--im%C3%A1genes-docker-de-fabric-y-ejecutables)
+    - [5.- Crear canal, unir organizaciones e instanciar chaincode:](#5--crear-canal-unir-organizaciones-e-instanciar-chaincode)
+    - [6.- Registrar Admin y un usuario:](#6--registrar-admin-y-un-usuario)
+    - [7.- Iniciar servidor y API Rest:](#7--iniciar-servidor-y-api-rest)
+    - [8.- Cliente Angular:](#8--cliente-angular)
 
 ## 1.- Prerrequisitos:
 Antes de poder comenzar a configurar nuestra red Fabric necesitamos instalar los prerrequisitos en las máquinas que queramos utilizar para el desarrollo de la aplicación.
@@ -164,3 +182,15 @@ Puedes realizar peticiones para interactuar con la red, como peticiones POST, GE
         - modelo
         - color
         - propietario
+
+
+## 8.- Cliente Angular:
+En caso de que queramos conectarnos con la red Fabric de manera mas visual e interactiva podemos clonar mi repositorio de Agular7_HF_Client y usar el cliente.
+
+```bash
+git clone https://github.com/antonioalfa22/Angular7_HF_Client
+
+cd Angular7_HF_Client
+npm install
+npm start
+```

@@ -51,7 +51,8 @@ module.exports = function (app, redFabric) {
       }).then(function (data) {
         laptops = data;
         var count = Object.keys(laptops).length;
-        var id = 'LAP'+count;
+        var num = parseInt(laptops[count-1]['Key'].replace('LAP',''),10)+1;
+        var id = 'LAP'+num;
         var laptop = {
           id : id,
           marca : req.body.marca,
@@ -74,10 +75,10 @@ module.exports = function (app, redFabric) {
     /**
      * PUT -> update laptop
      */
-    app.put("/api/laptop", function (req, res) {
+    app.put("/api/laptop/:id", function (req, res) {
       var id = req.params.id;
       var laptop = {
-        id : req.body.id,
+        id : id,
         marca : req.body.marca,
         modelo : req.body.modelo,
         color : req.body.color,

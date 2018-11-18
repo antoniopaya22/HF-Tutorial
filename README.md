@@ -4,6 +4,8 @@
 
 
 Tutorial para poder crear una red blockchain Hyperledger Fabric junto con un cliente Angular que se conecta con la red mediante una API Rest.
+
+
  ![Preview](./doc/img/hftutorial.gif)
 
 

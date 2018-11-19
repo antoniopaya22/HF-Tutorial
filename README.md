@@ -193,6 +193,7 @@ En caso de que queramos conectarnos con la red Fabric de manera mas visual e int
 git clone https://github.com/antonioalfa22/Angular7_HF_Client
 
 cd Angular7_HF_Client
+npm install -g @angular/cli
 npm install
 npm start
 ```

@@ -28,7 +28,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "ejs": "latest",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "fabric-ca-client": "^1.3.0",
     "fabric-client": "^1.4.0",
     "grpc": "^1.6.0"
